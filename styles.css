@@ -1,0 +1,47 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+div {
+    border: 1px solid black;
+}
+/*********************************************/
+.container {
+    width: 375px;
+    height: 500px;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    flex-direction: column;
+}
+button {
+    min-width: 75px;
+    flex: 1;
+}
+/*********************************************/
+.display {
+    flex: 2;
+    font-size: 75px;
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+.text {
+    flex-shrink: 1;
+    height: 50px;
+    width: 75px;
+}
+/*********************************************/
+.middle {
+    display: flex;
+    flex: 4;
+    flex-wrap: wrap;
+}
+/*********************************************/
+.bottom {
+    display: flex;
+    flex: 1;
+}
+
