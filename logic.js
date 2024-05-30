@@ -1,3 +1,7 @@
+// jose-g315
+// calculator logic and DOM manipulation
+
+//basic math functions
 function add (a,b){
     return a + b;
 }
@@ -11,6 +15,7 @@ function divide(a,b){
     return a / b;
 }
 
+// global variables 
 let numberOne = "";
 let operator = "";
 let numberTwo = "";
@@ -28,7 +33,6 @@ function operate(numberOne, operator, numberTwo){
 }
 
 const display = document.querySelector(".display");
-
 
 const buttons = document.querySelectorAll("button")
     .forEach(button => button.addEventListener("click",() => {
@@ -60,7 +64,15 @@ const clearButton = document.querySelector(".clear")
         display.textContent = "";
 });
 
-const backspaceButton = document.querySelector(".equals")
+const backspaceButton = document.querySelector(".backspace")
     .addEventListener("click", ( )=> {
-
+        if (numberTwo.length === 0){
+            numberOne = numberOne.slice(0,-1);
+            display.textContent = numberOne;
+        } else {
+            numberTwo = numberTwo.slice(0,-1);
+            display.textContent = numberTwo;
+        }
+        console.log("Number 1: "+numberOne);
+        console.log("Number 2: "+numberTwo);
     });
