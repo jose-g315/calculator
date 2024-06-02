@@ -12,7 +12,7 @@ function multiply(a,b){
     return a * b;
 }
 function divide(a,b){
-    return a / b;
+    return (a / b).toFixed(5);
 }
 
 // global variables 
@@ -31,8 +31,17 @@ function operate(numberOne, operator, numberTwo){
         return divide(numberOne,numberTwo);
     }
 }
+// disabling/enabling the decimal
+function disablingDecimal(number){
+    if (number.includes(".")){
+        decimalButton.disabled = true;
+    }else {
+        decimalButton.disabled = false;
+    } 
+}
 
 const display = document.querySelector(".display");
+const decimalButton = document.querySelector(".decimal");
 
 const buttons = document.querySelectorAll("button")
     .forEach(button => button.addEventListener("click",() => {
@@ -40,11 +49,14 @@ const buttons = document.querySelectorAll("button")
         if (numberOne.length !== 0 && button.classList.contains("number") && operator.length !== 0){
             numberTwo += button.value;
             display.textContent = numberTwo;
+            disablingDecimal(numberTwo);
         } else if (button.classList.contains("operator")){
             operator = button.value;
+            decimalButton.disabled = false;
         } else if (button.classList.contains("number")){
             numberOne += button.value;
             display.textContent = numberOne;
+            disablingDecimal(numberOne);
         }
         console.log(numberOne + " " + operator + " " + numberTwo);
 
@@ -54,6 +66,7 @@ const equalsButton = document.querySelector(".equals")
     .addEventListener("click", () => {
         console.log(operate(Number(numberOne),operator,Number(numberTwo)));
         display.textContent = operate(Number(numberOne),operator,Number(numberTwo));
+        decimalButton.disabled = false;
 });
 
 const clearButton = document.querySelector(".clear")
@@ -62,6 +75,7 @@ const clearButton = document.querySelector(".clear")
         numberTwo = "";
         operator = "";
         display.textContent = "";
+        decimalButton.disabled = false;
 });
 
 const backspaceButton = document.querySelector(".backspace")
@@ -69,9 +83,11 @@ const backspaceButton = document.querySelector(".backspace")
         if (numberTwo.length === 0){
             numberOne = numberOne.slice(0,-1);
             display.textContent = numberOne;
+            disablingDecimal(numberOne);
         } else {
             numberTwo = numberTwo.slice(0,-1);
             display.textContent = numberTwo;
+            disablingDecimal(numberTwo);
         }
         console.log("Number 1: "+numberOne);
         console.log("Number 2: "+numberTwo);
