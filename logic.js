@@ -3,23 +3,24 @@
 
 //basic math functions
 function add (a,b){
-    //return (a + b).toFixed(0);
     return a + b;
 }
 function subtract(a,b){
     return a - b;
 }
 function multiply(a,b){
-    return +parseFloat(a * b).toFixed(5);
+    return +parseFloat(a * b).toFixed(7);
 }
 function divide(a,b){
-    return +parseFloat(a / b).toFixed(5);
+    return +parseFloat(a / b).toFixed(7);
 }
 
 // global variables 
 let numberOne = "0";
 let operator = "";
 let numberTwo = "";
+let equalsButtonPressed = false;
+let isNegative = false;
 
 function operate(numberOne, operator, numberTwo){
     if (operator === "+"){
@@ -51,12 +52,28 @@ const decimalButton = document.querySelector(".decimal");
 
 const buttons = document.querySelectorAll("button")
     .forEach(button => button.addEventListener("click",() => {
-        
          // evaluating if user presses another operator before pressing equals & resetting numberTwo
-        if (numberTwo.length != 0 && button.classList.contains("operator")){
+        if (numberTwo.length !== 0 && button.classList.contains("operator")){
+            if (equalsButtonPressed){
+                // checking to see what operator was pressed and setting numberTwo to an appropriate value
+                if (operator === "x" || operator === "/"){
+                    numberTwo = "1";
+                } else {
+                    numberTwo = "";
+                }
+            }
+            console.log("Inside"+numberOne + " " + operator + " " + numberTwo);
             numberOne = operate(Number(numberOne),operator,Number(numberTwo)).toString();
+            if (numberOne.length >= 12){
+                numberOne = Number(numberOne).toPrecision(6);
+                display.textContent = numberOne;
+                equalsButtonPressed = false;
+            } else{
+                display.textContent = numberOne;
+                equalsButtonPressed = false;
+            }
             numberTwo = "";
-            display.textContent = numberOne;
+            operator = button.value;
         }
         if (numberOne.length !== 0 && button.classList.contains("number") && operator.length !== 0){
             // preventing leading zeros before the decimal
@@ -87,7 +104,7 @@ const buttons = document.querySelectorAll("button")
             display.textContent = numberOne;
             disablingDecimal(numberOne);
         }
-        console.log(numberOne + " " + operator + " " + numberTwo);
+        console.log("Outside:"+numberOne + " " + operator + " " + numberTwo);
 
 }));
 
@@ -96,17 +113,20 @@ const equalsButton = document.querySelector(".equals")
         console.log(operate(Number(numberOne),operator,Number(numberTwo)));
         // stopping an early press of the equal button to do anything
         if (numberOne.length > 0 && operator.length > 0 && numberTwo.length > 0) {
-            if (numberOne.length > 12){
-                numberOne = operate(Number(numberOne),operator,Number(numberTwo));
-                numberOne = numberOne.toExponential();
-                decimalButton.disabled = false;
-                display.textContent = numberOne;
-            }
             // assigning numberOne to the result of the operation allows for chaining the result example: 2+2=4=6=8
             numberOne = operate(Number(numberOne),operator,Number(numberTwo)).toString();
-            decimalButton.disabled = false;
-            display.textContent = numberOne;
+            console.log(numberOne);
+            if (numberOne.length >= 12){
+                numberOne = Number(numberOne).toPrecision(6);
+                console.log(typeof(numberOne));
+                decimalButton.disabled = false;
+                display.textContent = numberOne;
+            } else{
+                decimalButton.disabled = false;
+                display.textContent = numberOne;
+            }  
         }
+        equalsButtonPressed = true
 });
 
 const clearButton = document.querySelector(".clear")
@@ -131,3 +151,32 @@ const backspaceButton = document.querySelector(".backspace")
         }
     });
 
+const signButton = document.querySelector(".sign")
+    .addEventListener("click", () => {
+        if (numberOne.length !== 0 && numberTwo === 0) {
+            if (!isNegative) {
+                numberOne += (-Math.abs(Number(numberOne))).toString();
+                numberOne += signButton.value;
+                display.textContent = numberOne;
+                console.log(numberOne);
+                isNegative = true;
+            } else if (isNegative) {
+                numberOne = (Math.abs(Number(numberOne))).toString();
+                display.textContent = numberOne;
+                console.log(numberOne);
+                isNegative = false;
+            }
+        } else if (numberOne.length !== 0 && numberTwo.length !== 0) {
+            if (!isNegative) {
+                numberTwo = (-Math.abs(Number(numberTwo))).toString();
+                display.textContent = numberTwo;
+                console.log(numberTwo);
+                isNegative = true;
+            } else if (isNegative) {
+                numberTwo = (Math.abs(Number(numberTwo))).toString();
+                display.textContent = numberTwo;
+                console.log(numberTwo);
+                isNegative = false;
+            }
+        }
+    });
