@@ -22,6 +22,7 @@ let numberTwo = "";
 let equalsButtonPressed = false;
 let isNegative = false;
 
+
 function operate(numberOne, operator, numberTwo){
     if (operator === "+"){
         return add(numberOne,numberTwo);
@@ -90,6 +91,7 @@ const buttons = document.querySelectorAll("button")
             if (numberTwo.length === 0) {
                 operator = button.value;
                 decimalButton.disabled = false;
+                isNegative = false;
             }
            
         } else if (button.classList.contains("number")){
@@ -153,30 +155,33 @@ const backspaceButton = document.querySelector(".backspace")
 
 const signButton = document.querySelector(".sign")
     .addEventListener("click", () => {
-        if (numberOne.length !== 0 && numberTwo === 0) {
+        if (numberOne.length !== 0 && numberOne !== "0" && numberTwo.length === 0) {
             if (!isNegative) {
-                numberOne += (-Math.abs(Number(numberOne))).toString();
-                numberOne += signButton.value;
+                numberOne = (-Math.abs(Number(numberOne))).toString();
                 display.textContent = numberOne;
-                console.log(numberOne);
+                console.log("3:"+numberOne);
                 isNegative = true;
+                console.log(isNegative);
             } else if (isNegative) {
                 numberOne = (Math.abs(Number(numberOne))).toString();
                 display.textContent = numberOne;
-                console.log(numberOne);
+                console.log("4:"+numberOne);
                 isNegative = false;
+                console.log(isNegative);
             }
         } else if (numberOne.length !== 0 && numberTwo.length !== 0) {
             if (!isNegative) {
                 numberTwo = (-Math.abs(Number(numberTwo))).toString();
                 display.textContent = numberTwo;
-                console.log(numberTwo);
+                console.log("1:"+numberTwo);
                 isNegative = true;
+                console.log(isNegative);
             } else if (isNegative) {
                 numberTwo = (Math.abs(Number(numberTwo))).toString();
                 display.textContent = numberTwo;
-                console.log(numberTwo);
+                console.log("2:"+numberTwo);
                 isNegative = false;
+                console.log(isNegative);
             }
         }
     });
