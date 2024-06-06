@@ -8,8 +8,8 @@ div {
 /*********************************************/
 .container {
     border: 15px solid rgb(34, 44, 75);
-    width: 375px;
-    height: 500px;
+    width: 35vw;
+    height: 75vh;
     display: flex;
     margin-left: auto;
     margin-right: auto;
@@ -17,7 +17,6 @@ div {
     flex-direction: column;
 }
 button {
-    min-width: 75px;
     flex: 1;
     opacity: 1;
 }
@@ -45,7 +44,11 @@ button:active {
 .middle {
     display: flex;
     flex: 4;
-    flex-wrap: wrap;
+    flex-direction: column;
+}
+.row {
+    flex: 1;
+    display: flex;
 }
 .number {
     background-color: darkgrey;
