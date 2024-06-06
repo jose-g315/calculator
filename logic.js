@@ -148,7 +148,9 @@ const clearButton = document.querySelector(".clear")
 // logic for back space button
 const backspaceButton = document.querySelector(".backspace")
     .addEventListener("click", () => {
-        if (numberTwo.length === 0){
+        if (equalsButtonPressed){
+
+        } else if (numberTwo.length === 0){
             numberOne = numberOne.slice(0,-1);
             display.textContent = numberOne;
             disablingDecimal(numberOne);
