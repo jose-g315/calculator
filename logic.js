@@ -1,7 +1,7 @@
 // jose-g315
 // calculator logic and DOM manipulation
 
-//basic math functions
+// basic math functions
 function add (a,b){
     return a + b;
 }
@@ -21,8 +21,7 @@ let operator = "";
 let numberTwo = "";
 let equalsButtonPressed = false;
 let isNegative = false;
-
-
+// operate function 
 function operate(numberOne, operator, numberTwo){
     if (operator === "+"){
         return add(numberOne,numberTwo);
@@ -47,10 +46,13 @@ function disablingDecimal(number){
     } 
 }
 
+// display element and setting it to zero at start
 const display = document.querySelector(".display");
 display.textContent = numberOne;
+
 const decimalButton = document.querySelector(".decimal");
 
+// adding an event listener to every button and filtering by class such as number and operator
 const buttons = document.querySelectorAll("button")
     .forEach(button => button.addEventListener("click",() => {
          // evaluating if user presses another operator before pressing equals & resetting numberTwo
@@ -63,7 +65,6 @@ const buttons = document.querySelectorAll("button")
                     numberTwo = "";
                 }
             }
-            console.log("Inside"+numberOne + " " + operator + " " + numberTwo);
             numberOne = operate(Number(numberOne),operator,Number(numberTwo)).toString();
             if (numberOne.length >= 12){
                 numberOne = Number(numberOne).toPrecision(6);
@@ -98,6 +99,7 @@ const buttons = document.querySelectorAll("button")
             // preventing leading zeros before the decimal
             if (numberOne === "0") {
                 numberOne = "";
+                console.log(typeof(numberOne));
             }
             // limiting display to 12 characters
             if (numberOne.length < 12) {
@@ -113,7 +115,7 @@ const buttons = document.querySelectorAll("button")
 const equalsButton = document.querySelector(".equals")
     .addEventListener("click", () => {
         console.log(operate(Number(numberOne),operator,Number(numberTwo)));
-        // stopping an early press of the equal button to do anything
+        // if statement stops anything from happening if equals button is pressed to early
         if (numberOne.length > 0 && operator.length > 0 && numberTwo.length > 0) {
             // assigning numberOne to the result of the operation allows for chaining the result example: 2+2=4=6=8
             numberOne = operate(Number(numberOne),operator,Number(numberTwo)).toString();
@@ -131,15 +133,19 @@ const equalsButton = document.querySelector(".equals")
         equalsButtonPressed = true
 });
 
+// logic for clear button
 const clearButton = document.querySelector(".clear")
     .addEventListener("click", () => {
+        // clearing all variables
         numberOne = "";
         numberTwo = "";
         operator = "";
-        display.textContent = "";
+        display.textContent = "0";
         decimalButton.disabled = false;
+        isNegative = false;
 });
 
+// logic for back space button
 const backspaceButton = document.querySelector(".backspace")
     .addEventListener("click", () => {
         if (numberTwo.length === 0){
@@ -153,35 +159,28 @@ const backspaceButton = document.querySelector(".backspace")
         }
     });
 
+// logic for sign button
 const signButton = document.querySelector(".sign")
     .addEventListener("click", () => {
-        if (numberOne.length !== 0 && numberOne !== "0" && numberTwo.length === 0) {
+        if (numberOne.length !== 0 && numberOne !== "0" && numberTwo.length === 0 && operator.length === 0) {
             if (!isNegative) {
                 numberOne = (-Math.abs(Number(numberOne))).toString();
                 display.textContent = numberOne;
-                console.log("3:"+numberOne);
                 isNegative = true;
-                console.log(isNegative);
             } else if (isNegative) {
                 numberOne = (Math.abs(Number(numberOne))).toString();
                 display.textContent = numberOne;
-                console.log("4:"+numberOne);
                 isNegative = false;
-                console.log(isNegative);
             }
         } else if (numberOne.length !== 0 && numberTwo.length !== 0) {
             if (!isNegative) {
                 numberTwo = (-Math.abs(Number(numberTwo))).toString();
                 display.textContent = numberTwo;
-                console.log("1:"+numberTwo);
                 isNegative = true;
-                console.log(isNegative);
             } else if (isNegative) {
                 numberTwo = (Math.abs(Number(numberTwo))).toString();
                 display.textContent = numberTwo;
-                console.log("2:"+numberTwo);
                 isNegative = false;
-                console.log(isNegative);
             }
         }
     });

@@ -7,6 +7,7 @@ div {
 }
 /*********************************************/
 .container {
+    border: 15px solid rgb(34, 44, 75);
     width: 375px;
     height: 500px;
     display: flex;
@@ -18,7 +19,17 @@ div {
 button {
     min-width: 75px;
     flex: 1;
+    opacity: 1;
 }
+button:hover {
+    opacity: 0.95;
+    color: #ffffff;
+}
+button:active {
+    opacity: 0.5;
+    box-shadow: 0 5px #535353;
+    transform: translateY(1px);
+  }
 /*********************************************/
 .display {
     flex: 2;
@@ -27,6 +38,7 @@ button {
     display: flex;
     align-items: center;
     justify-content: end;
+    border-bottom: 10px solid rgb(34, 44, 75);
    
 }
 /*********************************************/
@@ -35,9 +47,22 @@ button {
     flex: 4;
     flex-wrap: wrap;
 }
+.number {
+    background-color: darkgrey;
+}
+.operator, .sign {
+    background-color: coral;
+}
+
 /*********************************************/
 .bottom {
     display: flex;
     flex: 1;
+}
+.equals {
+    background-color: rgb(58, 148, 178);
+}
+.backspace, .clear {
+    background-color: rgb(231, 231, 27);
 }
 
