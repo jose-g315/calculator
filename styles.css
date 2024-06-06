@@ -19,6 +19,7 @@ div {
 button {
     flex: 1;
     opacity: 1;
+    font-size: x-large;
 }
 button:hover {
     opacity: 0.95;
@@ -33,6 +34,7 @@ button:active {
 .display {
     flex: 2;
     font-size: 60px;
+    overflow: auto;
     text-align: right;
     display: flex;
     align-items: center;
