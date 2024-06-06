@@ -8,8 +8,8 @@ div {
 /*********************************************/
 .container {
     border: 15px solid rgb(34, 44, 75);
-    width: 375px;
-    height: 500px;
+    width: 55vh;
+    height: 75vh;
     display: flex;
     margin-left: auto;
     margin-right: auto;
