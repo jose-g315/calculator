@@ -2,6 +2,9 @@
     padding: 0;
     margin: 0;
 }
+body {
+    background: rgb(82, 95, 107);
+}
 div {
     border: 1px solid black;
 }
@@ -40,6 +43,8 @@ button:active {
     align-items: center;
     justify-content: end;
     border-bottom: 10px solid rgb(34, 44, 75);
+    background-color: #2b2a2a;
+    color: cornsilk;
    
 }
 /*********************************************/
