@@ -1,6 +1,17 @@
 // jose-g315
 // calculator logic and DOM manipulation
 
+// global variables 
+let numberOne = "0";
+let operator = "";
+let numberTwo = "";
+let equalsButtonPressed = false;
+let isNegative = false;
+
+// dom variables
+const display = document.querySelector(".display");
+const decimalButton = document.querySelector(".decimal");
+
 // basic math functions
 function add (a,b){
     return a + b;
@@ -15,12 +26,6 @@ function divide(a,b){
     return +parseFloat(a / b).toFixed(7);
 }
 
-// global variables 
-let numberOne = "0";
-let operator = "";
-let numberTwo = "";
-let equalsButtonPressed = false;
-let isNegative = false;
 // operate function 
 function operate(numberOne, operator, numberTwo){
     if (operator === "+"){
@@ -47,10 +52,8 @@ function disablingDecimal(number){
 }
 
 // display element and setting it to zero at start
-const display = document.querySelector(".display");
 display.textContent = numberOne;
 
-const decimalButton = document.querySelector(".decimal");
 
 // adding an event listener to every button and filtering by class such as number and operator
 const buttons = document.querySelectorAll("button")
