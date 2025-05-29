@@ -1,8 +1,15 @@
+
+
+// global variables
 let numberOne = "";
 let numberTwo = "";
 let operator = "";
 let result = "";
 let operatorPressed = false;
+let equationNotComplete = true;
+
+const display = document.querySelector(".display");
+display.textContent = 0;
 
 function add(a,b) {
     return a + b
@@ -41,26 +48,50 @@ function clearCalculator(){
     console.log (numberOne, operator, numberTwo);
 }
 
+function disablingDecimal(number){
+    const decimalButton = document.querySelector("#decimal");
+    if (number.includes(".")){
+        decimalButton.disabled = true;
+    }else {
+        decimalButton.disabled = false;
+    } 
+}
+function disablingLeadingZero(number){
+    const zeroButton = document.querySelector("#zero");
+    if (number.includes("0")){
+        zeroButton.disabled = true;
+    }else {
+        zeroButton.disabled = false;
+    } 
+}
 
-const display = document.querySelector(".display");
 function updateDisplay(input){
     display.textContent = input;
 }
+function appendToCorrectOperand(operatorWasPressed,button) {
+    if(operatorWasPressed) {
+        disablingDecimal(numberTwo += button.value);
+        console.log (numberOne, operator, numberTwo);
+        updateDisplay(numberTwo);
+    } else {
+        disablingDecimal(numberOne += button.value);
+        console.log (numberOne, operator, numberTwo);
+        updateDisplay(numberOne);     
+    }
+}
+function checkingIfComputationIsComplete() {
+    if(numberOne !== "" && numberTwo !== "") {
+        return true;
+    } else {
+        return false;
+    }
+};
 const buttons = document.querySelectorAll("button");
 for (const btn of buttons) {
     btn.addEventListener("click", (e) => {
         switch (e.target.className) {
             case "number":
-                if(operatorPressed) {
-                    numberTwo += btn.value;
-                    console.log (numberOne, operator, numberTwo);
-                    updateDisplay(numberTwo);
-                } else {
-                    numberOne += btn.value;
-                    console.log (numberOne, operator, numberTwo);
-                    updateDisplay(numberOne);     
-                }
-;
+                appendToCorrectOperand(operatorPressed,btn);
                 break;
             case "operator": 
                 operator = btn.value;
@@ -69,15 +100,22 @@ for (const btn of buttons) {
                 updateDisplay(operator);
                 break;
             case "equals":
-                result = operate(+numberOne,operator,+numberTwo);
-                console.log(numberOne, operator, numberTwo,result);
-                updateDisplay(result);
+                if(checkingIfComputationIsComplete()) {
+                    // assigning numberOne to the result of the operation allows for chaining the result example: 2+2=4=6=8
+                    numberOne = operate(+numberOne,operator,+numberTwo);
+                    console.log(numberOne, operator, numberTwo,numberOne);
+                    updateDisplay(numberOne);
+                    break;
+                }
                 break;
             case "clear":
                 clearCalculator();
+                disablingDecimal("No Decimal");
                 break;
 
         }
         
     })
 }
+let x = "";
+console.log("X:" + x);
