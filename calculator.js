@@ -1,3 +1,9 @@
+let numberOne = "";
+let numberTwo = "";
+let operator = "";
+let result = "";
+let operatorPressed = false;
+
 function add(a,b) {
     return a + b
 };
@@ -25,12 +31,16 @@ function operate(numberOne, operator, numberTwo){
         }
     }
 }
+function clearCalculator(){
+    numberOne = "";
+    numberTwo = "";
+    operator = "";
+    result = "";
+    operatorPressed = false;
+    updateDisplay(0);
+    console.log (numberOne, operator, numberTwo);
+}
 
-let numberOne = "";
-let numberTwo = "";
-let operator = "";
-let result = "";
-let operatorPressed = false;
 
 const display = document.querySelector(".display");
 function updateDisplay(input){
@@ -43,24 +53,30 @@ for (const btn of buttons) {
             case "number":
                 if(operatorPressed) {
                     numberTwo += btn.value;
-                    console.log (numberOne, operator, numberTwo)
+                    console.log (numberOne, operator, numberTwo);
                     updateDisplay(numberTwo);
                 } else {
                     numberOne += btn.value;
-                    console.log (numberOne, operator, numberTwo)
-                    updateDisplay(numberOne)     
+                    console.log (numberOne, operator, numberTwo);
+                    updateDisplay(numberOne);     
                 }
 ;
                 break;
             case "operator": 
                 operator = btn.value;
                 operatorPressed = true;
-                console.log (numberOne, operator, numberTwo)
+                console.log (numberOne, operator, numberTwo);
                 updateDisplay(operator);
                 break;
             case "equals":
                 result = operate(+numberOne,operator,+numberTwo);
+                console.log(numberOne, operator, numberTwo,result);
                 updateDisplay(result);
+                break;
+            case "clear":
+                clearCalculator();
+                break;
+
         }
         
     })
