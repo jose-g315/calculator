@@ -107,6 +107,7 @@ for (const btn of buttons) {
                 }
                 if (!checkingIfComputationIsComplete() || equalsButtonPressed) {
                     numberTwo = "";
+                    disablingDecimal("No Decimal");
                     operator = btn.value;
                     operatorPressed = true;
                     updateDisplay(operator);
