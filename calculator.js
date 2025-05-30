@@ -45,7 +45,7 @@ function clearCalculator(){
     operatorPressed = false;
     equalsButtonPressed = false;
     updateDisplay(0);
-    console.log (numberOne, operator, numberTwo);
+    //console.log (numberOne, operator, numberTwo);
 }
 
 function disablingDecimal(number){
@@ -101,6 +101,10 @@ for (const btn of buttons) {
                 appendToCorrectOperand(operatorPressed,btn);
                 break;
             case "operator":
+                // prevents early usage of the operator buttons
+                if (numberOne === "" && numberTwo === ""){
+                    break;
+                }
                 if (!checkingIfComputationIsComplete() || equalsButtonPressed) {
                     numberTwo = "";
                     operator = btn.value;
@@ -122,6 +126,7 @@ for (const btn of buttons) {
                     equalsButtonPressed = true;
                     break;
                 }
+                break;
             case "clear":
                 clearCalculator();
                 disablingDecimal("No Decimal");
