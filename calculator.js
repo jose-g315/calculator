@@ -45,7 +45,6 @@ function clearCalculator(){
     operatorPressed = false;
     equalsButtonPressed = false;
     updateDisplay(0);
-    //console.log (numberOne, operator, numberTwo);
 }
 
 function disablingDecimal(number){
@@ -56,24 +55,24 @@ function disablingDecimal(number){
         decimalButton.disabled = false;
     } 
 }
-function disablingLeadingZero(number){
-    const zeroButton = document.querySelector("#zero");
-    if (number.includes("0")){
-        zeroButton.disabled = true;
-    }else {
-        zeroButton.disabled = false;
-    } 
-}
+// function disablingLeadingZero(number){
+//     const zeroButton = document.querySelector("#zero");
+//     if (number.includes("0")){
+//         zeroButton.disabled = true;
+//     }else {
+//         zeroButton.disabled = false;
+//     } 
+// }
 
 function updateDisplay(input){
     display.textContent = input;
 }
 function appendToCorrectOperand(operatorWasPressed,button) {
-    if(operatorWasPressed) {
+    if(operatorWasPressed && numberTwo.length < 16) {
         disablingDecimal(numberTwo += button.value);
         console.log (numberOne, operator, numberTwo);
         updateDisplay(numberTwo);
-    } else {
+    } else if (numberOne.length < 16) {
         disablingDecimal(numberOne += button.value);
         console.log (numberOne, operator, numberTwo);
         updateDisplay(numberOne);     
@@ -87,10 +86,18 @@ function checkingIfComputationIsComplete() {
     }
 };
 function calculateAndDisplay(){
-    result = operate(+numberOne,operator,+numberTwo);
-    console.log(numberOne, operator, numberTwo,result);
+    result = limitDecimalPlaces(operate(+numberOne,operator,+numberTwo));
+    console.log(numberOne, operator, numberTwo, result);
     updateDisplay(result);
     numberOne = result;
+}
+function limitDecimalPlaces(number) {
+    let numberString = String(number);
+    if(numberString.length > 10) {
+        return parseFloat(number.toFixed(10));
+    } else {
+        return number;
+    }
 }
 
 const buttons = document.querySelectorAll("button");
