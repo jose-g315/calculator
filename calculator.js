@@ -18,10 +18,10 @@ function subtract(a,b) {
 };
 function multiply(a,b) {
     return a * b;
-}
+};
 function divide(a,b) {
     return a / b;
-}
+};
 function operate(numberOne, operator, numberTwo){
     if (operator === "+"){
         return add(numberOne,numberTwo);
@@ -36,7 +36,7 @@ function operate(numberOne, operator, numberTwo){
             return divide(numberOne,numberTwo);
         }
     }
-}
+};
 function clearCalculator(){
     numberOne = "";
     numberTwo = "";
@@ -45,7 +45,7 @@ function clearCalculator(){
     operatorPressed = false;
     equalsButtonPressed = false;
     updateDisplay(0);
-}
+};
 
 function disablingDecimal(number){
     const decimalButton = document.querySelector("#decimal");
@@ -54,30 +54,24 @@ function disablingDecimal(number){
     }else {
         decimalButton.disabled = false;
     } 
-}
-// function disablingLeadingZero(number){
-//     const zeroButton = document.querySelector("#zero");
-//     if (number.includes("0")){
-//         zeroButton.disabled = true;
-//     }else {
-//         zeroButton.disabled = false;
-//     } 
-// }
+};
 
 function updateDisplay(input){
     display.textContent = input;
-}
+};
 function appendToCorrectOperand(operatorWasPressed,button) {
     if(operatorWasPressed && numberTwo.length < 16) {
         disablingDecimal(numberTwo += button.value);
+        numberTwo = formattingNumber(numberTwo);
         console.log (numberOne, operator, numberTwo);
         updateDisplay(numberTwo);
     } else if (numberOne.length < 16) {
         disablingDecimal(numberOne += button.value);
+        numberOne = formattingNumber(numberOne);
         console.log (numberOne, operator, numberTwo);
         updateDisplay(numberOne);     
     }
-}
+};
 function checkingIfComputationIsComplete() {
     if(numberOne !== "" && numberTwo !== "") {
         return true;
@@ -86,25 +80,24 @@ function checkingIfComputationIsComplete() {
     }
 };
 function calculateAndDisplay(){
-    result = limitDecimalPlaces(operate(+numberOne,operator,+numberTwo));
+    result = formattingNumber(operate(+numberOne,operator,+numberTwo));
     console.log(numberOne, operator, numberTwo, result);
     updateDisplay(result);
     numberOne = result;
-}
-function limitDecimalPlaces(number) {
-    let numberString = String(number);
-    if(numberString.length > 10) {
-        return parseFloat(number.toFixed(10));
+};
+function formattingNumber(number) {
+    if (!isNaN(number)) {
+        return Number(number).toString();
     } else {
-        return number;
-    }
-}
+        return number.toFixed(10);
+        }
+};
 
 const buttons = document.querySelectorAll("button");
 for (const btn of buttons) {
     btn.addEventListener("click", (e) => {
         switch (e.target.className) {
-            case "number":
+            case "number":             
                 appendToCorrectOperand(operatorPressed,btn);
                 break;
             case "operator":
@@ -140,7 +133,7 @@ for (const btn of buttons) {
                 disablingDecimal("No Decimal");
                 break;
 
-        }
+        };
         
     })
-}
+};
