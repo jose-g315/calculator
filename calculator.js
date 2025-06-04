@@ -119,7 +119,7 @@ for (const btn of buttons) {
     btn.addEventListener("click", (e) => {
         switch (e.target.className) {
             case "number": 
-                if (checkingIfComputationIsComplete()) {
+                if (checkingIfComputationIsComplete() && equalsButtonPressed) {
                     clearCalculator();
                 }       
                 appendToCorrectOperand(operatorPressed,btn);
