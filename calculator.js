@@ -7,7 +7,7 @@ let operator = "";
 let result = "";
 let operatorPressed = false;
 let equalsButtonPressed = false;
-let displayLock = false;
+let displayLock = true;
 
 const display = document.querySelector(".display");
 
@@ -103,12 +103,25 @@ function formattingNumber(number) {
 function deleteLastDigit(number){
     return number.slice(0,-1);
 }
+function negateNumber(number){
+    if (number === ".") {
+        return number;
+    }
+    if(number > 0) {
+        return (-Math.abs(Number(number))).toString();
+    } else {
+        return (Math.abs(Number(number))).toString();
+    }
+}
 
 const buttons = document.querySelectorAll("button");
 for (const btn of buttons) {
     btn.addEventListener("click", (e) => {
         switch (e.target.className) {
-            case "number":             
+            case "number": 
+                if (checkingIfComputationIsComplete()) {
+                    clearCalculator();
+                }       
                 appendToCorrectOperand(operatorPressed,btn);
                 break;
             case "operator":
@@ -165,7 +178,18 @@ for (const btn of buttons) {
                     }
                     break;
                 }
-
+            case "sign":
+                if(operatorPressed && !equalsButtonPressed && !displayLock){
+                    numberTwo = negateNumber(numberTwo);
+                    console.log(numberTwo);
+                    updateDisplay(numberTwo);
+                    break;
+                } else if (!operatorPressed && !equalsButtonPressed && !displayLock) {
+                    numberOne = negateNumber(numberOne);
+                    console.log(numberOne);
+                    updateDisplay(numberOne);
+                    break;
+                }
         };
         
     })
