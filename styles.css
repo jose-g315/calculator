@@ -11,7 +11,7 @@ div {
 /*********************************************/
 .container {
     border: 15px solid rgb(34, 44, 75);
-    width: 35vw;
+    width: min(550px,75vw);
     height: 75vh;
     display: flex;
     margin-left: auto;
@@ -26,7 +26,7 @@ button {
 }
 button:hover {
     opacity: 0.95;
-    color: #ffffff;
+    color: whitesmoke;
 }
 button:active {
     opacity: 0.5;
@@ -35,10 +35,8 @@ button:active {
   }
 /*********************************************/
 .display {
-    flex: 2;
-    font-size: 3.2rem;
-    overflow: auto;
-    text-align: right;
+    flex: 1.5;
+    font-size: clamp(32px, 4vw, 48px);
     display: flex;
     align-items: center;
     justify-content: end;
@@ -73,6 +71,5 @@ button:active {
     background-color: rgb(58, 148, 178);
 }
 .backspace, .clear {
-    background-color: rgb(231, 231, 27);
+    background-color: rgba(235, 235, 65, 0.882);
 }
-
