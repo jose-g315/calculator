@@ -7,6 +7,7 @@ let operator = "";
 let result = "";
 let operatorPressed = false;
 let equalsButtonPressed = false;
+let displayLock = false;
 
 const display = document.querySelector(".display");
 
@@ -60,6 +61,7 @@ function updateDisplay(input){
     display.textContent = input;
 };
 function appendToCorrectOperand(operatorWasPressed,button) {
+    displayLock = false;
     if(operatorWasPressed && numberTwo.length < 16) {
         disablingDecimal(numberTwo += button.value);
         numberTwo = formattingNumber(numberTwo);
@@ -86,12 +88,21 @@ function calculateAndDisplay(){
     numberOne = result;
 };
 function formattingNumber(number) {
-    if (!isNaN(number)) {
+    if (typeof number === "string") {
+        if (number.includes(".")) {
+            return number;
+        }
+        console.log("1");
         return Number(number).toString();
     } else {
-        return number.toFixed(10);
+        console.log("2");
+        return Number(number.toFixed(10));
         }
 };
+
+function deleteLastDigit(number){
+    return number.slice(0,-1);
+}
 
 const buttons = document.querySelectorAll("button");
 for (const btn of buttons) {
@@ -112,12 +123,14 @@ for (const btn of buttons) {
                     operatorPressed = true;
                     updateDisplay(operator);
                     equalsButtonPressed = false;
+                    displayLock = true;
                     break;
                 }
                 if (checkingIfComputationIsComplete()) {
                     calculateAndDisplay();
                     numberTwo = "";
                     operator = btn.value;
+                    displayLock = true;
                     break;
                 }
                 break;
@@ -132,6 +145,26 @@ for (const btn of buttons) {
                 clearCalculator();
                 disablingDecimal("No Decimal");
                 break;
+            case "backspace":
+                if(operatorPressed && !equalsButtonPressed && !displayLock){
+                    numberTwo = deleteLastDigit(numberTwo);
+                    console.log(numberTwo);
+                    if(numberTwo.length === 0) {
+                        updateDisplay("0");
+                    } else {
+                        updateDisplay(numberTwo)
+                    }
+                    break;
+                } else if (!operatorPressed && !equalsButtonPressed && !displayLock) {
+                    numberOne = deleteLastDigit(numberOne);
+                    console.log(numberOne);
+                    if(numberOne.length === 0) {
+                        updateDisplay("0");
+                    } else {
+                        updateDisplay(numberOne)
+                    }
+                    break;
+                }
 
         };
         
