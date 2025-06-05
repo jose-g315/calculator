@@ -1,4 +1,5 @@
-
+// jose-g315
+// calculator logic and DOM manipulation
 
 // global variables
 let numberOne = "";
@@ -8,33 +9,21 @@ let result = "";
 let operatorPressed = false;
 let equalsButtonPressed = false;
 let displayLock = true;
-
+let calculatorState = "start";
 const display = document.querySelector(".display");
 
-function add(a,b) {
-    return a + b
-};
-function subtract(a,b) {
-    return a - b;
-};
-function multiply(a,b) {
-    return a * b;
-};
-function divide(a,b) {
-    return a / b;
-};
 function operate(numberOne, operator, numberTwo){
     if (operator === "+"){
-        return add(numberOne,numberTwo);
+        return numberOne + numberTwo;
     } else if (operator === "-"){
-        return subtract(numberOne,numberTwo);
+        return numberOne - numberTwo;
     } else if (operator === "x"){
-        return multiply(numberOne,numberTwo);
+        return numberOne * numberTwo;
     } else if (operator === "/"){
         if (numberTwo === 0){
             return "Nope!";
         } else {
-            return divide(numberOne,numberTwo);
+            return numberOne / numberTwo;
         }
     }
 };
