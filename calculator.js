@@ -6,10 +6,9 @@ let numberOne = "";
 let numberTwo = "";
 let operator = "";
 let result = "";
-let operatorPressed = false;
-let equalsButtonPressed = false;
-let displayLock = true;
-let calculatorState = "start";
+// onStart onFirst onOperator onSecond onComplete
+let calculatorState = "onStart";
+
 const display = document.querySelector(".display");
 
 function operate(numberOne, operator, numberTwo){
@@ -32,11 +31,9 @@ function clearCalculator(){
     numberTwo = "";
     operator = "";
     result = "";
-    operatorPressed = false;
-    equalsButtonPressed = false;
+    calculatorState = "onStart";
     updateDisplay(0);
 };
-
 function disablingDecimal(number){
     const decimalButton = document.querySelector("#decimal");
     if (number.includes(".")){
@@ -45,34 +42,11 @@ function disablingDecimal(number){
         decimalButton.disabled = false;
     } 
 };
-
 function updateDisplay(input){
     display.textContent = input;
 };
-function appendToCorrectOperand(operatorWasPressed,button) {
-    displayLock = false;
-    if(operatorWasPressed && numberTwo.length < 16) {
-        disablingDecimal(numberTwo += button.value);
-        numberTwo = formattingNumber(numberTwo);
-        console.log (numberOne, operator, numberTwo);
-        updateDisplay(numberTwo);
-    } else if (numberOne.length < 16) {
-        disablingDecimal(numberOne += button.value);
-        numberOne = formattingNumber(numberOne);
-        console.log (numberOne, operator, numberTwo);
-        updateDisplay(numberOne);     
-    }
-};
-function checkingIfComputationIsComplete() {
-    if(numberOne !== "" && numberTwo !== "") {
-        return true;
-    } else {
-        return false;
-    }
-};
 function calculateAndDisplay(){
     result = formattingNumber(operate(+numberOne,operator,+numberTwo));
-    console.log(numberOne, operator, numberTwo, result);
     updateDisplay(result);
     numberOne = result;
 };
@@ -81,10 +55,8 @@ function formattingNumber(number) {
         if (number.includes(".")) {
             return number;
         }
-        console.log("1");
         return Number(number).toString();
     } else {
-        console.log("2");
         return Number(number.toFixed(10));
         }
 };
@@ -103,43 +75,60 @@ function negateNumber(number){
     }
 }
 
+function appendToCorrectOperand(button) {
+    displayLock = false; 
+    if((calculatorState === "onOperator" || calculatorState === "onSecond") && numberTwo.length < 16) {
+        disablingDecimal(numberTwo += button.value);
+        numberTwo = formattingNumber(numberTwo);
+        updateDisplay(numberTwo);
+        calculatorState = "onSecond";
+    } else if ((calculatorState === "onStart" || calculatorState === "onFirst") && numberOne.length < 16) {
+        disablingDecimal(numberOne += button.value);
+        numberOne = formattingNumber(numberOne);
+        updateDisplay(numberOne); 
+        calculatorState = "onFirst";    
+    }
+};
+
 const buttons = document.querySelectorAll("button");
 for (const btn of buttons) {
     btn.addEventListener("click", (e) => {
         switch (e.target.className) {
             case "number": 
-                if (checkingIfComputationIsComplete() && equalsButtonPressed) {
+                if (calculatorState === "onComplete") {
                     clearCalculator();
+                    calculatorState = "onStart";
                 }       
-                appendToCorrectOperand(operatorPressed,btn);
+                appendToCorrectOperand(btn);
                 break;
             case "operator":
                 // prevents early usage of the operator buttons
                 if (numberOne === "" && numberTwo === ""){
                     break;
                 }
-                if (!checkingIfComputationIsComplete() || equalsButtonPressed) {
+                // allowing for changing of the operator before inputting second number
+                if (numberTwo === "") {
+                    calculatorState = "onFirst";
+                }
+                if (calculatorState === "onFirst" || calculatorState === "onComplete") {
                     numberTwo = "";
                     disablingDecimal("No Decimal");
                     operator = btn.value;
-                    operatorPressed = true;
                     updateDisplay(operator);
-                    equalsButtonPressed = false;
-                    displayLock = true;
+                    calculatorState = "onOperator";
                     break;
                 }
-                if (checkingIfComputationIsComplete()) {
+                if (calculatorState === "onOperator" || calculatorState === "onSecond") {
                     calculateAndDisplay();
                     numberTwo = "";
                     operator = btn.value;
-                    displayLock = true;
                     break;
                 }
                 break;
             case "equals":
-                if(checkingIfComputationIsComplete()) {
+                if(calculatorState === "onSecond" || calculatorState === "onComplete") {
                     calculateAndDisplay();
-                    equalsButtonPressed = true;
+                    calculatorState = "onComplete";
                     break;
                 }
                 break;
@@ -148,34 +137,23 @@ for (const btn of buttons) {
                 disablingDecimal("No Decimal");
                 break;
             case "backspace":
-                if(operatorPressed && !equalsButtonPressed && !displayLock){
+                if(calculatorState === "onSecond"){
                     numberTwo = deleteLastDigit(numberTwo);
-                    console.log(numberTwo);
-                    if(numberTwo.length === 0) {
-                        updateDisplay("0");
-                    } else {
-                        updateDisplay(numberTwo)
-                    }
+                    numberTwo.length === 0 ? updateDisplay("0") : updateDisplay(numberTwo);
                     break;
-                } else if (!operatorPressed && !equalsButtonPressed && !displayLock) {
+                } else if (calculatorState === "onFirst") {
                     numberOne = deleteLastDigit(numberOne);
-                    console.log(numberOne);
-                    if(numberOne.length === 0) {
-                        updateDisplay("0");
-                    } else {
-                        updateDisplay(numberOne)
-                    }
+                    numberOne.length === 0 ? updateDisplay("0") : updateDisplay(numberOne);
                     break;
                 }
+                break;
             case "sign":
-                if(operatorPressed && !equalsButtonPressed && !displayLock){
+                if(calculatorState === "onSecond"){
                     numberTwo = negateNumber(numberTwo);
-                    console.log(numberTwo);
                     updateDisplay(numberTwo);
                     break;
-                } else if (!operatorPressed && !equalsButtonPressed && !displayLock) {
+                } else if (calculatorState === "onFirst") {
                     numberOne = negateNumber(numberOne);
-                    console.log(numberOne);
                     updateDisplay(numberOne);
                     break;
                 }
