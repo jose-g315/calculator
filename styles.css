@@ -12,7 +12,7 @@ div {
 .container {
     border: 15px solid rgb(34, 44, 75);
     width: min(550px,75vw);
-    height: min(75vh,600px);
+    height: min(75vh,725px);
     display: flex;
     margin-left: auto;
     margin-right: auto;
