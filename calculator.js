@@ -8,8 +8,8 @@ let operator = "";
 let result = "";
 // onStart onFirst onOperator onSecond onComplete
 let calculatorState = "onStart";
-
 const display = document.querySelector(".display");
+const buttons = document.querySelectorAll("button");
 
 function operate(numberOne, operator, numberTwo){
     if (operator === "+"){
@@ -76,7 +76,6 @@ function negateNumber(number){
 }
 
 function appendToCorrectOperand(button) {
-    displayLock = false; 
     if((calculatorState === "onOperator" || calculatorState === "onSecond") && numberTwo.length < 16) {
         disablingDecimal(numberTwo += button.value);
         numberTwo = formattingNumber(numberTwo);
@@ -90,7 +89,7 @@ function appendToCorrectOperand(button) {
     }
 };
 
-const buttons = document.querySelectorAll("button");
+// event delegation for all buttons
 for (const btn of buttons) {
     btn.addEventListener("click", (e) => {
         switch (e.target.className) {
